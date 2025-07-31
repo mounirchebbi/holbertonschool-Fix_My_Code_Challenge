@@ -36,11 +36,14 @@ class User():
         - `None` if `pwd` is `None`
         - `None` if `pwd` is not a string
         - Hash `pwd` in MD5 before assign to `__password`
+        
+        FIX: Changed assignment from `self._password` to `self.__password`
+        so the hash is stored correctly and accessible by getter and validator.
         """
         if pwd is None or type(pwd) is not str:
             self.__password = None
         else:
-            self._password = hashlib.md5(pwd.encode()).hexdigest().lower()
+            self.__password = hashlib.md5(pwd.encode()).hexdigest().lower()
 
     def is_valid_password(self, pwd):
         """
@@ -49,12 +52,14 @@ class User():
         - `False` if `pwd` is not a string
         - `False` if `__password` is `None`
         - Compare `__password` and the MD5 value of `pwd`
+        
+        FIX: Changed `.upper()` to `.lower()` to match stored hash case.
         """
         if pwd is None or type(pwd) is not str:
             return False
         if self.__password is None:
             return False
-        return hashlib.md5(pwd.encode()).hexdigest().upper() == self.__password
+        return hashlib.md5(pwd.encode()).hexdigest().lower() == self.__password
 
 
 if __name__ == '__main__':
@@ -85,12 +90,10 @@ if __name__ == '__main__':
         print("User.password should be None if setter to an integer")
 
     if not user_1.is_valid_password(u_pwd):
-        print("is_valid_password should return True if it's the right \
-password")
+        print("is_valid_password should return True if it's the right password")
 
     if user_1.is_valid_password("Fakepwd"):
-        print("is_valid_password should return False if it's not the right \
-password")
+        print("is_valid_password should return False if it's not the right password")
 
     if user_1.is_valid_password(None):
         print("is_valid_password should return False if compare with None")
@@ -99,5 +102,4 @@ password")
         print("is_valid_password should return False if compare with integer")
 
     if user_2.is_valid_password("No pwd"):
-        print("is_valid_password should return False if no password set \
-before")
+        print("is_valid_password should return False if no password set before")
