@@ -36,9 +36,6 @@ class User():
         - `None` if `pwd` is `None`
         - `None` if `pwd` is not a string
         - Hash `pwd` in MD5 before assign to `__password`
-        
-        FIX: Changed assignment from `self._password` to `self.__password`
-        so the hash is stored correctly and accessible by getter and validator.
         """
         if pwd is None or type(pwd) is not str:
             self.__password = None
@@ -52,8 +49,6 @@ class User():
         - `False` if `pwd` is not a string
         - `False` if `__password` is `None`
         - Compare `__password` and the MD5 value of `pwd`
-        
-        FIX: Changed `.upper()` to `.lower()` to match stored hash case.
         """
         if pwd is None or type(pwd) is not str:
             return False
